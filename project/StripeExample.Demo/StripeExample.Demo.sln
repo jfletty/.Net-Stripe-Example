@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StripeExample.Demo.Console", "StripeExample.Demo.Console\StripeExample.Demo.Console.csproj", "{09C7C2A1-1029-425A-A14D-1F7DF5A5C528}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StripeExample.Demo", "StripeExample.Demo\StripeExample.Demo.csproj", "{13D3D565-A2C3-406B-A637-40344E225B6E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{09C7C2A1-1029-425A-A14D-1F7DF5A5C528}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09C7C2A1-1029-425A-A14D-1F7DF5A5C528}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09C7C2A1-1029-425A-A14D-1F7DF5A5C528}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09C7C2A1-1029-425A-A14D-1F7DF5A5C528}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13D3D565-A2C3-406B-A637-40344E225B6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13D3D565-A2C3-406B-A637-40344E225B6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13D3D565-A2C3-406B-A637-40344E225B6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13D3D565-A2C3-406B-A637-40344E225B6E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
