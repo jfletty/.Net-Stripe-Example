@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="StripeExample.Demo.Api" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoFixture" Version="4.17.0" />
+      <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
+      <PackageReference Include="Moq" Version="4.16.1" />
+      <PackageReference Include="RestSharp" Version="106.15.0" />
+      <PackageReference Include="xunit" Version="2.4.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\StripeExample.Demo.Api\StripeExample.Demo.Api.csproj" />
+      <ProjectReference Include="..\StripeExample.Demo.Services\StripeExample.Demo.Services.csproj" />
+    </ItemGroup>
+
+</Project>

@@ -16,7 +16,8 @@ namespace StripeExample.Demo.Services.Helpers
                 Deleted = stripeCustomer.Deleted,
                 Description = stripeCustomer.Description,
                 Email = stripeCustomer.Email,
-                Name = stripeCustomer.Name
+                Name = stripeCustomer.Name,
+                Phone = stripeCustomer.Phone
             };
         }
         
@@ -31,7 +32,8 @@ namespace StripeExample.Demo.Services.Helpers
                 Deleted = customer.Deleted,
                 Description = customer.Description,
                 Email = customer.Email,
-                Name = customer.Name
+                Name = customer.Name,
+                Phone = customer.Phone
             };
         }
     }

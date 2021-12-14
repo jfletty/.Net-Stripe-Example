@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using StripeExample.Demo.Services.Clients;
 using StripeExample.Demo.Services.Helpers;
 using StripeExample.Demo.Services.Models;
@@ -14,15 +14,12 @@ namespace StripeExample.Demo.Services.Services
     {
         private readonly IRequestClient _requestClient;
         private readonly StripeConfig _stripeConfig;
-        private readonly Logger<ManageCustomer> _logger;
 
         public ManageCustomer(
             IRequestClient requestClient,
-            StripeConfig stripeConfig,
-            Logger<ManageCustomer> logger)
+            StripeConfig stripeConfig)
         {
             _requestClient = requestClient;
-            _logger = logger;
             _stripeConfig = stripeConfig;
         }
 
@@ -41,7 +38,8 @@ namespace StripeExample.Demo.Services.Services
 
         public async Task<CustomerDTO> CreateOrUpdateCustomer(CustomerDTO customer)
         {
-            var response = await _requestClient.DoGet<Customer>(_stripeConfig.Url, "customers");
+            var body = JsonConvert.SerializeObject(CustomerConverter.Convert(customer));
+            var response = await _requestClient.DoPost<Customer>(_stripeConfig.Url, "customers", body);
             return CustomerConverter.Convert(response);
         }
 

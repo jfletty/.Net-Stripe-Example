@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using RestSharp;
 
@@ -10,8 +9,7 @@ namespace StripeExample.Demo.Services.Clients
     {
         private readonly IRestClient _client;
 
-        public RequestClient(
-            IRestClient client)
+        public RequestClient(IRestClient client)
         {
             _client = client;
         }
@@ -30,10 +28,10 @@ namespace StripeExample.Demo.Services.Clients
         public async Task<T> DoPost<T>(
             string baseUrl,
             string endpoint,
-            List<KeyValuePair<string, string>> headers = null,
-            string body = null) where T : class
+            string body,
+            List<KeyValuePair<string, string>> headers = null) where T : class
         {
-            var request = BuildRequest(endpoint, Method.POST, headers: headers);
+            var request = BuildRequest(endpoint, Method.POST, null, headers, body);
             return await MakeRequest<T>(baseUrl, request);
         }
 
@@ -51,10 +49,10 @@ namespace StripeExample.Demo.Services.Clients
             where T : class
         {
             _client.BaseUrl = new Uri(baseUrl);
-            var response =  await _client.ExecuteAsync<T>(request);
+            var response = await _client.ExecuteAsync<T>(request);
             return response.IsSuccessful ? response.Data : null;
         }
-        
+
         private static IRestRequest BuildRequest(string endpoint,
             Method method,
             KeyValuePair<string, string>? parameter = null,
@@ -67,19 +65,19 @@ namespace StripeExample.Demo.Services.Clients
                 Method = method
             };
 
-            if (headers.Any())
+            if (headers != null)
             {
                 request.AddHeaders(headers);
             }
 
             if (parameter.HasValue)
             {
-                request.AddParameter(parameter.Value.Key, parameter.Value.Value);
+                request.AddQueryParameter(parameter.Value.Key, parameter.Value.Value);
             }
 
             if (!string.IsNullOrEmpty(body))
             {
-                request.AddJsonBody(body);
+                request.AddBody(body);
             }
 
             return request;

@@ -14,8 +14,8 @@ namespace StripeExample.Demo.Services.Clients
         Task<T> DoPost<T>(
             string baseUrl,
             string endpoint,
-            List<KeyValuePair<string, string>> headers = null,
-            string body = null) where T : class;
+            string body,
+            List<KeyValuePair<string, string>> headers = null) where T : class;
         
         Task<T> DoDelete<T>(
             string baseUrl,
