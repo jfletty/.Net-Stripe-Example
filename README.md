@@ -25,7 +25,7 @@ This solution is fairly basic so will only require an IDE and .net runtime+SDK i
 ### Contribution Guide
 This repo is open for any additional changes, improvements or alterations. When you are making these changes, follow the coding conventions documented on the [Microsoft website](https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions).
 
-Any changes should be completed in your own fork is then PR'ed into the master branch.
+Any changes should be completed in your own fork and then PR'ed into the master branch.
 
 ## Roadmap
 
