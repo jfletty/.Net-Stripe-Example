@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StripeExample.Demo.Services", "StripeExample.Demo.Services\StripeExample.Demo.Services.csproj", "{13D3D565-A2C3-406B-A637-40344E225B6E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stripe.Demo.Services", "Stripe.Demo.Services\Stripe.Demo.Services.csproj", "{13D3D565-A2C3-406B-A637-40344E225B6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StripeExample.Demo.UnitTests", "StripeExample.Demo.UnitTests\StripeExample.Demo.UnitTests.csproj", "{91ABD6B1-63FA-49EA-927C-F8FDAAEF223F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StripeExample.Demo.Api", "StripeExample.Demo.Api\StripeExample.Demo.Api.csproj", "{C610932D-F06E-4B6C-9E24-7AA42D0C4A0C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stripe.Demo.UnitTests", "Stripe.Demo.UnitTests\Stripe.Demo.UnitTests.csproj", "{91ABD6B1-63FA-49EA-927C-F8FDAAEF223F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,9 +18,5 @@ Global
 		{91ABD6B1-63FA-49EA-927C-F8FDAAEF223F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91ABD6B1-63FA-49EA-927C-F8FDAAEF223F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91ABD6B1-63FA-49EA-927C-F8FDAAEF223F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C610932D-F06E-4B6C-9E24-7AA42D0C4A0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C610932D-F06E-4B6C-9E24-7AA42D0C4A0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C610932D-F06E-4B6C-9E24-7AA42D0C4A0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C610932D-F06E-4B6C-9E24-7AA42D0C4A0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -2,11 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
+        <RootNamespace>StripeExample.Demo.UnitTests</RootNamespace>
     </PropertyGroup>
-
-    <ItemGroup>
-      <Folder Include="StripeExample.Demo.Api" />
-    </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="AutoFixture" Version="4.17.0" />
@@ -17,8 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\StripeExample.Demo.Api\StripeExample.Demo.Api.csproj" />
-      <ProjectReference Include="..\StripeExample.Demo.Services\StripeExample.Demo.Services.csproj" />
+      <ProjectReference Include="..\Stripe.Demo.Services\Stripe.Demo.Services.csproj" />
     </ItemGroup>
 
 </Project>
