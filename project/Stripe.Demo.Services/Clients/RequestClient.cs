@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using RestSharp;
 
@@ -8,52 +7,50 @@ namespace StripeExample.Demo.Services.Clients
     public class RequestClient : IRequestClient
     {
         private readonly IRestClient _client;
+        private readonly string _apiSecret;
 
-        public RequestClient(IRestClient client)
+        public RequestClient(string baseUrl, string apiSecret)
         {
-            _client = client;
+            _apiSecret = apiSecret;
+            _client = new RestClient(baseUrl);
         }
 
         public async Task<T> DoGet<T>(
-            string baseUrl,
             string endpoint,
             KeyValuePair<string, string>? parameters = null,
             List<KeyValuePair<string, string>> headers = null)
             where T : class
         {
             var request = BuildRequest(endpoint, Method.GET, parameters, headers);
-            return await MakeRequest<T>(baseUrl, request);
+            return await MakeRequest<T>(request);
         }
 
         public async Task<T> DoPost<T>(
-            string baseUrl,
             string endpoint,
             string body,
             List<KeyValuePair<string, string>> headers = null) where T : class
         {
             var request = BuildRequest(endpoint, Method.POST, null, headers, body);
-            return await MakeRequest<T>(baseUrl, request);
+            return await MakeRequest<T>(request);
         }
 
         public async Task<T> DoDelete<T>(
-            string baseUrl,
             string endpoint,
             KeyValuePair<string, string> parameters,
             List<KeyValuePair<string, string>> headers = null) where T : class
         {
             var request = BuildRequest(endpoint, Method.DELETE, parameters, headers);
-            return await MakeRequest<T>(baseUrl, request);
+            return await MakeRequest<T>(request);
         }
 
-        private async Task<T> MakeRequest<T>(string baseUrl, IRestRequest request)
+        private async Task<T> MakeRequest<T>(IRestRequest request)
             where T : class
         {
-            _client.BaseUrl = new Uri(baseUrl);
             var response = await _client.ExecuteAsync<T>(request);
             return response.IsSuccessful ? response.Data : null;
         }
 
-        private static IRestRequest BuildRequest(string endpoint,
+        private IRestRequest BuildRequest(string endpoint,
             Method method,
             KeyValuePair<string, string>? parameter = null,
             ICollection<KeyValuePair<string, string>> headers = null,
@@ -64,6 +61,8 @@ namespace StripeExample.Demo.Services.Clients
                 Resource = endpoint,
                 Method = method
             };
+
+            request.AddHeader("Authorization", $"Bearer {_apiSecret}");
 
             if (headers != null)
             {

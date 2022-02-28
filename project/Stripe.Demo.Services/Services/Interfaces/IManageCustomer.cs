@@ -6,9 +6,9 @@ namespace StripeExample.Demo.Services.Services.Interfaces
 {
     public interface IManageCustomer
     {
-        Task<CustomerDTO> Get(string customerId);
-        Task<List<CustomerDTO>> GetAll();
-        Task<CustomerDTO> CreateOrUpdateCustomer(CustomerDTO customer);
-        Task<bool> DeleteCustomer(string customerId);
+        Task<CustomerDTO> GetAsync(string customerId);
+        Task<List<CustomerDTO>> GetAllAsync();
+        Task<CustomerDTO> CreateOrUpdateCustomerAsync(CustomerDTO customer);
+        Task<bool> DeleteCustomerAsync(string customerId);
     }
 }

@@ -13,40 +13,36 @@ namespace StripeExample.Demo.Services.Services
     public class ManageCustomer : IManageCustomer
     {
         private readonly IRequestClient _requestClient;
-        private readonly StripeConfig _stripeConfig;
-
-        public ManageCustomer(
-            IRequestClient requestClient,
-            StripeConfig stripeConfig)
+        
+        public ManageCustomer(StripeConfig config)
         {
-            _requestClient = requestClient;
-            _stripeConfig = stripeConfig;
+            _requestClient = new RequestClient(config.Url, config.StripeSecret);
         }
 
-        public async Task<CustomerDTO> Get(string customerId)
+        public async Task<CustomerDTO> GetAsync(string customerId)
         {
             var parameters = new KeyValuePair<string, string>("", customerId);
-            var response = await _requestClient.DoGet<Customer>(_stripeConfig.Url, "customers", parameters);
+            var response = await _requestClient.DoGet<Customer>("customers", parameters);
             return CustomerConverter.Convert(response);
         }
 
-        public async Task<List<CustomerDTO>> GetAll()
+        public async Task<List<CustomerDTO>> GetAllAsync()
         {
-            var response = await _requestClient.DoGet<List<Customer>>(_stripeConfig.Url, "customers");
+            var response = await _requestClient.DoGet<List<Customer>>("customers");
             return response.Select(CustomerConverter.Convert).ToList();
         }
 
-        public async Task<CustomerDTO> CreateOrUpdateCustomer(CustomerDTO customer)
+        public async Task<CustomerDTO> CreateOrUpdateCustomerAsync(CustomerDTO customer)
         {
             var body = JsonConvert.SerializeObject(CustomerConverter.Convert(customer));
-            var response = await _requestClient.DoPost<Customer>(_stripeConfig.Url, "customers", body);
+            var response = await _requestClient.DoPost<Customer>("customers", body);
             return CustomerConverter.Convert(response);
         }
 
-        public async Task<bool> DeleteCustomer(string customerId)
+        public async Task<bool> DeleteCustomerAsync(string customerId)
         {
             var parameters = new KeyValuePair<string, string>("", customerId);
-            var result = await _requestClient.DoDelete<CustomerDeletedDTO>(_stripeConfig.Url, "customers", parameters);
+            var result = await _requestClient.DoDelete<CustomerDeletedDTO>("customers", parameters);
             return result == null;
         }
     }

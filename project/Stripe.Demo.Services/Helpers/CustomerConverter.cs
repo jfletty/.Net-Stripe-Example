@@ -11,7 +11,6 @@ namespace StripeExample.Demo.Services.Helpers
             {
                 ExternalId = stripeCustomer.Id,
                 Balance = stripeCustomer.Balance,
-                Created = stripeCustomer.Created,
                 Currency = stripeCustomer.Currency,
                 Deleted = stripeCustomer.Deleted,
                 Description = stripeCustomer.Description,
@@ -27,7 +26,6 @@ namespace StripeExample.Demo.Services.Helpers
             {
                 Id = customer.ExternalId,
                 Balance = customer.Balance,
-                Created = customer.Created,
                 Currency = customer.Currency,
                 Deleted = customer.Deleted,
                 Description = customer.Description,

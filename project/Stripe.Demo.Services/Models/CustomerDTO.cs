@@ -1,11 +1,10 @@
-﻿using System;
-namespace StripeExample.Demo.Services.Models
+﻿namespace StripeExample.Demo.Services.Models
 {
     public class CustomerDTO
     {
+        public string Id { get; set; }
         public string ExternalId { get; set; }
         public long Balance { get; set; }
-        public DateTime Created { get; set; }
         public string Currency { get; set; }
         public bool? Deleted { get; set; }
         public string Description { get; set; }

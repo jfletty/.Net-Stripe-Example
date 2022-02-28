@@ -20,15 +20,12 @@ namespace StripeExample.Demo.UnitTests.StripeDemo.Services.Clients
         private readonly RequestClient _requestClient;
         private readonly Mock<IRestClient> _restClient;
         private readonly Fixture _fixture;
-        private readonly string _baseUrl;
 
         public RequestClientTests()
         {
             _fixture = new Fixture();
             _restClient = new Mock<IRestClient>();
-            _requestClient = new RequestClient(_restClient.Object);
-
-            _baseUrl = _fixture.Create<Uri>().ToString();
+            _requestClient = new RequestClient(_fixture.Create<Uri>().ToString(), "");
         }
 
         [Fact]
@@ -42,7 +39,7 @@ namespace StripeExample.Demo.UnitTests.StripeDemo.Services.Clients
                 .ReturnsAsync(restResponse);
 
             // act
-            var result = await _requestClient.DoGet<CustomerDTO>(_baseUrl, "getrequest");
+            var result = await _requestClient.DoGet<CustomerDTO>("getrequest");
 
             // assert
             Assert.Equal(restResponse.Data, result);
@@ -64,7 +61,7 @@ namespace StripeExample.Demo.UnitTests.StripeDemo.Services.Clients
                 .ReturnsAsync(restResponse);
 
             // act
-            var result = await _requestClient.DoGet<CustomerDTO>(_baseUrl, "getrequest", parameter);
+            var result = await _requestClient.DoGet<CustomerDTO>("getrequest", parameter);
 
             // assert
             Assert.Equal(restResponse.Data, result);
@@ -94,7 +91,7 @@ namespace StripeExample.Demo.UnitTests.StripeDemo.Services.Clients
                 .ReturnsAsync(restResponse);
 
             // act
-            var result = await _requestClient.DoGet<CustomerDTO>(_baseUrl, "getrequest", headers: headers);
+            var result = await _requestClient.DoGet<CustomerDTO>("getrequest", headers: headers);
 
             // assert
             Assert.Equal(restResponse.Data, result);
@@ -120,11 +117,10 @@ namespace StripeExample.Demo.UnitTests.StripeDemo.Services.Clients
 
             // act & assert
             await Assert.ThrowsAsync<HttpRequestException>(() =>
-                _requestClient.DoGet<CustomerDTO>(_baseUrl, "getrequest"));
+                _requestClient.DoGet<CustomerDTO>("getrequest"));
             await Assert.ThrowsAsync<HttpRequestException>(() =>
-                _requestClient.DoPost<CustomerDTO>(_baseUrl, "postrequest", null));
-            await Assert.ThrowsAsync<HttpRequestException>(() => _requestClient.DoDelete<CustomerDTO>(_baseUrl,
-                "deleterequest",
+                _requestClient.DoPost<CustomerDTO>("postrequest", null));
+            await Assert.ThrowsAsync<HttpRequestException>(() => _requestClient.DoDelete<CustomerDTO>("deleterequest",
                 new KeyValuePair<string, string>(_fixture.Create<string>(),
                     _fixture.Create<string>())));
         }
@@ -150,7 +146,7 @@ namespace StripeExample.Demo.UnitTests.StripeDemo.Services.Clients
 
             // act
             var result =
-                await _requestClient.DoPost<CustomerDTO>(_baseUrl, restRequest.Resource,
+                await _requestClient.DoPost<CustomerDTO>(restRequest.Resource,
                     restRequest.Body.Value.ToString());
 
             // assert
@@ -189,7 +185,7 @@ namespace StripeExample.Demo.UnitTests.StripeDemo.Services.Clients
                 .ReturnsAsync(restResponse);
 
             // act
-            var result = await _requestClient.DoPost<CustomerDTO>(_baseUrl, restRequest.Resource,
+            var result = await _requestClient.DoPost<CustomerDTO>(restRequest.Resource,
                 restRequest.Body.Value.ToString(), headers);
 
             // assert
@@ -220,7 +216,7 @@ namespace StripeExample.Demo.UnitTests.StripeDemo.Services.Clients
                 .ReturnsAsync(restResponse);
 
             // act
-            var result = await _requestClient.DoDelete<CustomerDTO>(_baseUrl, "dodelete", parameter);
+            var result = await _requestClient.DoDelete<CustomerDTO>("dodelete", parameter);
 
             // assert
             Assert.Equal(restResponse.Data, result);
@@ -253,7 +249,7 @@ namespace StripeExample.Demo.UnitTests.StripeDemo.Services.Clients
                 .ReturnsAsync(restResponse);
 
             // act
-            var result = await _requestClient.DoDelete<CustomerDTO>(_baseUrl, "doDelete", parameter, headers);
+            var result = await _requestClient.DoDelete<CustomerDTO>("doDelete", parameter, headers);
 
             // assert
             Assert.Equal(restResponse.Data, result);
