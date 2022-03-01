@@ -9,10 +9,10 @@ namespace StripeExample.Demo.Services.Clients
         private readonly IRestClient _client;
         private readonly string _apiSecret;
 
-        public RequestClient(string baseUrl, string apiSecret)
+        public RequestClient(IRestClient client, string apiSecret)
         {
             _apiSecret = apiSecret;
-            _client = new RestClient(baseUrl);
+            _client = client;
         }
 
         public async Task<T> DoGet<T>(

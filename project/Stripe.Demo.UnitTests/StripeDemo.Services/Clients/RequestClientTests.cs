@@ -25,7 +25,7 @@ namespace StripeExample.Demo.UnitTests.StripeDemo.Services.Clients
         {
             _fixture = new Fixture();
             _restClient = new Mock<IRestClient>();
-            _requestClient = new RequestClient(_fixture.Create<Uri>().ToString(), "");
+            _requestClient = new RequestClient(_restClient.Object, "");
         }
 
         [Fact]
@@ -66,9 +66,9 @@ namespace StripeExample.Demo.UnitTests.StripeDemo.Services.Clients
             // assert
             Assert.Equal(restResponse.Data, result);
             Assert.NotNull(actualParameters);
-            Assert.Equal(parameter.Key, actualParameters[0].Name);
-            Assert.Equal(parameter.Value, actualParameters[0].Value);
-            Assert.Equal(ParameterType.QueryString, actualParameters[0].Type);
+            Assert.Equal(parameter.Key, actualParameters[1].Name);
+            Assert.Equal(parameter.Value, actualParameters[1].Value);
+            Assert.Equal(ParameterType.QueryString, actualParameters[1].Type);
         }
 
         [Fact]
@@ -97,13 +97,13 @@ namespace StripeExample.Demo.UnitTests.StripeDemo.Services.Clients
             Assert.Equal(restResponse.Data, result);
 
             Assert.NotNull(actualHeaders);
-            Assert.Equal(headers[0].Key, actualHeaders[0].Name);
-            Assert.Equal(headers[0].Value, actualHeaders[0].Value);
-            Assert.Equal(ParameterType.HttpHeader, actualHeaders[0].Type);
-
-            Assert.Equal(headers[1].Key, actualHeaders[1].Name);
-            Assert.Equal(headers[1].Value, actualHeaders[1].Value);
+            Assert.Equal(headers[0].Key, actualHeaders[1].Name);
+            Assert.Equal(headers[0].Value, actualHeaders[1].Value);
             Assert.Equal(ParameterType.HttpHeader, actualHeaders[1].Type);
+
+            Assert.Equal(headers[1].Key, actualHeaders[2].Name);
+            Assert.Equal(headers[1].Value, actualHeaders[2].Value);
+            Assert.Equal(ParameterType.HttpHeader, actualHeaders[2].Type);
         }
 
         [Fact]
@@ -151,8 +151,8 @@ namespace StripeExample.Demo.UnitTests.StripeDemo.Services.Clients
 
             // assert
             Assert.Equal(restResponse.Data, result);
-            Assert.Equal(restRequest.Body.Value, actualBody[0].Value);
-            Assert.Equal(ParameterType.RequestBody, actualBody[0].Type);
+            Assert.Equal(restRequest.Body.Value, actualBody[1].Value);
+            Assert.Equal(ParameterType.RequestBody, actualBody[1].Type);
         }
 
         [Fact]
@@ -192,13 +192,13 @@ namespace StripeExample.Demo.UnitTests.StripeDemo.Services.Clients
             Assert.Equal(restResponse.Data, result);
 
             Assert.NotNull(actualHeaders);
-            Assert.Equal(headers[0].Key, actualHeaders[0].Name);
-            Assert.Equal(headers[0].Value, actualHeaders[0].Value);
-            Assert.Equal(ParameterType.HttpHeader, actualHeaders[0].Type);
-
-            Assert.Equal(headers[1].Key, actualHeaders[1].Name);
-            Assert.Equal(headers[1].Value, actualHeaders[1].Value);
+            Assert.Equal(headers[0].Key, actualHeaders[1].Name);
+            Assert.Equal(headers[0].Value, actualHeaders[1].Value);
             Assert.Equal(ParameterType.HttpHeader, actualHeaders[1].Type);
+
+            Assert.Equal(headers[1].Key, actualHeaders[2].Name);
+            Assert.Equal(headers[1].Value, actualHeaders[2].Value);
+            Assert.Equal(ParameterType.HttpHeader, actualHeaders[2].Type);
         }
 
         [Fact]
@@ -220,9 +220,9 @@ namespace StripeExample.Demo.UnitTests.StripeDemo.Services.Clients
 
             // assert
             Assert.Equal(restResponse.Data, result);
-            Assert.Equal(parameter.Key, actualParameters[0].Name);
-            Assert.Equal(parameter.Value, actualParameters[0].Value);
-            Assert.Equal(ParameterType.QueryString, actualParameters[0].Type);
+            Assert.Equal(parameter.Key, actualParameters[1].Name);
+            Assert.Equal(parameter.Value, actualParameters[1].Value);
+            Assert.Equal(ParameterType.QueryString, actualParameters[1].Type);
         }
 
         [Fact]
@@ -255,13 +255,13 @@ namespace StripeExample.Demo.UnitTests.StripeDemo.Services.Clients
             Assert.Equal(restResponse.Data, result);
 
             Assert.NotNull(actualHeaders);
-            Assert.Equal(headers[0].Key, actualHeaders[0].Name);
-            Assert.Equal(headers[0].Value, actualHeaders[0].Value);
-            Assert.Equal(ParameterType.HttpHeader, actualHeaders[0].Type);
-
-            Assert.Equal(headers[1].Key, actualHeaders[1].Name);
-            Assert.Equal(headers[1].Value, actualHeaders[1].Value);
+            Assert.Equal(headers[0].Key, actualHeaders[1].Name);
+            Assert.Equal(headers[0].Value, actualHeaders[1].Value);
             Assert.Equal(ParameterType.HttpHeader, actualHeaders[1].Type);
+
+            Assert.Equal(headers[1].Key, actualHeaders[2].Name);
+            Assert.Equal(headers[1].Value, actualHeaders[2].Value);
+            Assert.Equal(ParameterType.HttpHeader, actualHeaders[2].Type);
         }
 
         private IRestResponse<CustomerDTO> BuildCustomerResponse(bool isSuccessful = true)

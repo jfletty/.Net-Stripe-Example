@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using RestSharp;
 using StripeExample.Demo.Services.Clients;
 using StripeExample.Demo.Services.Helpers;
 using StripeExample.Demo.Services.Models;
@@ -16,7 +17,8 @@ namespace StripeExample.Demo.Services.Services
         
         public ManageCustomer(StripeConfig config)
         {
-            _requestClient = new RequestClient(config.Url, config.StripeSecret);
+            var client = new RestClient(config.Url);
+            _requestClient = new RequestClient(client, config.StripeSecret);
         }
 
         public async Task<CustomerDTO> GetAsync(string customerId)

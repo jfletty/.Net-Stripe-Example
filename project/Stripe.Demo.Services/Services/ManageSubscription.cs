@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using RestSharp;
 using Stripe;
 using StripeExample.Demo.Services.Clients;
 using StripeExample.Demo.Services.Helpers;
@@ -14,7 +15,8 @@ namespace StripeExample.Demo.Services.Services
 
         public ManageSubscription(StripeConfig config)
         {
-            _requestClient = new RequestClient(config.Url, config.StripeSecret);
+            var client = new RestClient(config.Url);
+            _requestClient = new RequestClient(client, config.StripeSecret);
         }
 
         public async Task<SubscriptionDTO> GetAsync(string subscriptionId)
