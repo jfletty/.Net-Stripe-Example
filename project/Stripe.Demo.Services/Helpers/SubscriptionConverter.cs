@@ -10,8 +10,7 @@ namespace StripeExample.Demo.Services.Helpers
         {
             return new()
             {
-                Id = stripeSubscription.Id,
-                Customer = stripeSubscription.Customer.Id,
+                ExternalId = stripeSubscription.Id,
                 Status = Enum.Parse<SubscriptionStatus>(stripeSubscription.Status),
                 CollectionMethod = Enum.Parse<CollectionMethod>(stripeSubscription.CollectionMethod)
             };
@@ -21,7 +20,7 @@ namespace StripeExample.Demo.Services.Helpers
         {
             return new()
             {
-                Id = subscription.Id,
+                Id = subscription.ExternalId,
                 Status = subscription.Status.ToString(),
                 CollectionMethod = subscription.CollectionMethod.ToString()
             };

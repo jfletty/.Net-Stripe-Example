@@ -14,7 +14,7 @@ namespace StripeExample.Demo.UnitTests.StripeDemo.Services.Helpers
         public void WhenStripeCustomerIsReceived_ElementsAreConvertedToCustomerDTOCorrectly()
         {
             // arrange
-            var orignal = new Customer
+            var original = new Customer
             {
                 Id = _fixture.Create<string>(),
                 Balance = _fixture.Create<long>(),
@@ -27,37 +27,37 @@ namespace StripeExample.Demo.UnitTests.StripeDemo.Services.Helpers
             };
             
             // act
-            var result = CustomerConverter.Convert(orignal);
+            var result = CustomerConverter.Convert(original);
             
             // assert
-            Assert.Equal(orignal.Id, result.ExternalId);
-            Assert.Equal(orignal.Balance, result.Balance);
-            Assert.Equal(orignal.Currency, result.Currency);
-            Assert.Equal(orignal.Deleted, result.Deleted);
-            Assert.Equal(orignal.Description, result.Description);
-            Assert.Equal(orignal.Email, result.Email);
-            Assert.Equal(orignal.Name, result.Name);
-            Assert.Equal(orignal.Phone, result.Phone);
+            Assert.Equal(original.Id, result.ExternalId);
+            Assert.Equal(original.Balance, result.Balance);
+            Assert.Equal(original.Currency, result.Currency);
+            Assert.Equal(original.Deleted, result.Deleted);
+            Assert.Equal(original.Description, result.Description);
+            Assert.Equal(original.Email, result.Email);
+            Assert.Equal(original.Name, result.Name);
+            Assert.Equal(original.Phone, result.Phone);
         }
         
         [Fact]
         public void WhenCustomerDTOIsReceived_ElementsAreConvertedToStripeCustomerCorrectly()
         {
             // arrange
-            var orignal = _fixture.Create<CustomerDTO>();
+            var original = _fixture.Create<CustomerDTO>();
             
             // act
-            var result = CustomerConverter.Convert(orignal);
+            var result = CustomerConverter.Convert(original);
             
             // assert
-            Assert.Equal(orignal.ExternalId, result.Id);
-            Assert.Equal(orignal.Balance, result.Balance);
-            Assert.Equal(orignal.Currency, result.Currency);
-            Assert.Equal(orignal.Deleted, result.Deleted);
-            Assert.Equal(orignal.Description, result.Description);
-            Assert.Equal(orignal.Email, result.Email);
-            Assert.Equal(orignal.Name, result.Name);
-            Assert.Equal(orignal.Phone, result.Phone);
+            Assert.Equal(original.ExternalId, result.Id);
+            Assert.Equal(original.Balance, result.Balance);
+            Assert.Equal(original.Currency, result.Currency);
+            Assert.Equal(original.Deleted, result.Deleted);
+            Assert.Equal(original.Description, result.Description);
+            Assert.Equal(original.Email, result.Email);
+            Assert.Equal(original.Name, result.Name);
+            Assert.Equal(original.Phone, result.Phone);
         }
     }
 }

@@ -2,7 +2,7 @@
 {
     public class SubscriptionDTO
     {
-        public string Id { get; set; }
+        public string ExternalId { get; set; }
         public string Customer { get; set; }
         public SubscriptionStatus Status { get; set; }
         public CollectionMethod CollectionMethod { get; set; }

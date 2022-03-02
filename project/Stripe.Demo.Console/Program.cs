@@ -35,5 +35,5 @@ var manageSubscription = serviceProvider.GetService<IManageSubscription>();
 
 var exampleSubscription = ExampleSubscriptionDTO.Build(createCustomer.Id);
 var createSubscription = await manageSubscription!.CreateOrUpdateAsync(exampleSubscription);
-await manageSubscription.GetAsync(createSubscription.Id);
-await manageSubscription.GetAllAsync(createSubscription.Id);
+await manageSubscription.GetAsync(createSubscription.ExternalId);
+await manageSubscription.GetAllAsync(createSubscription.ExternalId);
