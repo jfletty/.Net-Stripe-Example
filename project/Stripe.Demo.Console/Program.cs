@@ -25,7 +25,7 @@ var exampleCustomer = ExampleCustomerDTO.Build();
 var createCustomer = await manageCustomer!.CreateOrUpdateCustomerAsync(exampleCustomer);
 var getCustomer = await manageCustomer.GetAsync(createCustomer.Id);
 
-getCustomer.Name = "John Doe's Wife";
+getCustomer.Name = "John Doe's Partner";
 await manageCustomer.CreateOrUpdateCustomerAsync(getCustomer);
 await manageCustomer.GetAllAsync();
 await manageCustomer.DeleteCustomerAsync(getCustomer.Id);

@@ -7,6 +7,7 @@ namespace StripeExample.Demo.Services.Helpers
     {
         public static CustomerDTO Convert(Customer stripeCustomer)
         {
+            if (stripeCustomer == null) return null;
             return new()
             {
                 ExternalId = stripeCustomer.Id,
@@ -22,6 +23,7 @@ namespace StripeExample.Demo.Services.Helpers
         
         public static Customer Convert(CustomerDTO customer)
         {
+            if (customer == null) return null;
             return new()
             {
                 Id = customer.ExternalId,
