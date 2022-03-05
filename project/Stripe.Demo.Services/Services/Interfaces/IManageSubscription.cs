@@ -7,7 +7,7 @@ namespace StripeExample.Demo.Services.Services.Interfaces
     public interface IManageSubscription
     {
         Task<SubscriptionDTO> GetAsync(string subscriptionId);
-        Task<List<SubscriptionDTO>> GetAllAsync(string customerId);
+        Task<List<SubscriptionDTO>> GetAllAsync();
         Task<SubscriptionDTO> CreateOrUpdateAsync(SubscriptionDTO subscription);
     }
 }

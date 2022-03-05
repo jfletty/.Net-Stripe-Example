@@ -8,6 +8,7 @@ namespace StripeExample.Demo.Services.Helpers
     {
         public static SubscriptionDTO Convert(Subscription stripeSubscription)
         {
+            if (stripeSubscription == null) return null;
             return new()
             {
                 ExternalId = stripeSubscription.Id,
@@ -18,6 +19,7 @@ namespace StripeExample.Demo.Services.Helpers
         
         public static Subscription Convert(SubscriptionDTO subscription)
         {
+            if (subscription == null) return null;
             return new()
             {
                 Id = subscription.ExternalId,

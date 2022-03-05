@@ -9,6 +9,7 @@ using StripeExample.Demo.Services.Clients;
 using StripeExample.Demo.Services.Helpers;
 using StripeExample.Demo.Services.Models;
 using StripeExample.Demo.Services.Services;
+using StripeExample.Demo.Services.Services.Interfaces;
 using Xunit;
 
 namespace StripeExample.Demo.UnitTests.StripeDemo.Services.Services;
@@ -16,7 +17,7 @@ namespace StripeExample.Demo.UnitTests.StripeDemo.Services.Services;
 public class ManageCustomerTests
 {
     private readonly Fixture _fixture = new();
-    private readonly ManageCustomer _manageCustomer;
+    private readonly IManageCustomer _manageCustomer;
     private readonly string _customerId;
     private readonly Mock<IRequestClient> _requestClient;
 

@@ -15,7 +15,7 @@ namespace StripeExample.Demo.UnitTests.StripeDemo.Services.Helpers
         public void WhenStripeSubscriberIsReceived_ElementsAreConvertedToSubscriberDTOCorrectly()
         {
             // arrange
-            var original = new Subscription()
+            var original = new Subscription
             {
                 Id = _fixture.Create<string>(),
                 Status = _fixture.Create<SubscriptionStatus>().ToString(),
@@ -32,7 +32,20 @@ namespace StripeExample.Demo.UnitTests.StripeDemo.Services.Helpers
         }
         
         [Fact]
-        public void WhenCustomerDTOIsReceived_ElementsAreConvertedToStripeCustomerCorrectly()
+        public void WhenSubscriptionIsNull_NullIsReturned()
+        {
+            // arrange
+            Subscription original = null;
+            
+            // act
+            var result = SubscriptionConverter.Convert(original);
+            
+            // assert
+            Assert.Null(result);
+        }
+        
+        [Fact]
+        public void WhenSubscriptionDTOIsReceived_ElementsAreConvertedToStripeSubscriptionCorrectly()
         {
             // arrange
             var original = _fixture.Create<SubscriptionDTO>();
@@ -44,6 +57,19 @@ namespace StripeExample.Demo.UnitTests.StripeDemo.Services.Helpers
             Assert.Equal(original.ExternalId, result.Id);
             Assert.Equal(original.Status, Enum.Parse<SubscriptionStatus>(result.Status));
             Assert.Equal(original.CollectionMethod, Enum.Parse<CollectionMethod>(result.CollectionMethod));
+        }
+        
+        [Fact]
+        public void WhenSubscriptionDTOIsNull_NullIsReturned()
+        {
+            // arrange
+            SubscriptionDTO original = null;
+            
+            // act
+            var result = SubscriptionConverter.Convert(original);
+            
+            // assert
+            Assert.Null(result);
         }
     }
 }

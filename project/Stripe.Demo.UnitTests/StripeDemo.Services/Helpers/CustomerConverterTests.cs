@@ -41,6 +41,19 @@ namespace StripeExample.Demo.UnitTests.StripeDemo.Services.Helpers
         }
         
         [Fact]
+        public void WhenCustomerIsNull_NullIsReturned()
+        {
+            // arrange
+            Customer original = null;
+            
+            // act
+            var result = CustomerConverter.Convert(original);
+            
+            // assert
+            Assert.Null(result);
+        }
+        
+        [Fact]
         public void WhenCustomerDTOIsReceived_ElementsAreConvertedToStripeCustomerCorrectly()
         {
             // arrange
@@ -58,6 +71,19 @@ namespace StripeExample.Demo.UnitTests.StripeDemo.Services.Helpers
             Assert.Equal(original.Email, result.Email);
             Assert.Equal(original.Name, result.Name);
             Assert.Equal(original.Phone, result.Phone);
+        }
+        
+        [Fact]
+        public void WhenCustomerDTOIsNull_NullIsReturned()
+        {
+            // arrange
+            CustomerDTO original = null;
+            
+            // act
+            var result = CustomerConverter.Convert(original);
+            
+            // assert
+            Assert.Null(result);
         }
     }
 }

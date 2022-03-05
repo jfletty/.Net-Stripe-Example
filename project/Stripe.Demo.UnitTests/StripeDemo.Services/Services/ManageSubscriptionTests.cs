@@ -9,80 +9,71 @@ using StripeExample.Demo.Services.Clients;
 using StripeExample.Demo.Services.Helpers;
 using StripeExample.Demo.Services.Models;
 using StripeExample.Demo.Services.Services;
+using StripeExample.Demo.Services.Services.Interfaces;
 using Xunit;
 
 namespace StripeExample.Demo.UnitTests.StripeDemo.Services.Services;
 
-public class ManageCustomerTests
+public class ManageSubscriptionTests
 {
     private readonly Fixture _fixture = new();
-    private readonly ManageCustomer _manageCustomer;
-    private readonly string _customerId;
+    private readonly IManageSubscription _manageSubscription;
+    private readonly string _subscriptionId;
     private readonly Mock<IRequestClient> _requestClient;
 
-    public ManageCustomerTests()
+    public ManageSubscriptionTests()
     {
-        _customerId = _fixture.Create<string>();
+        _subscriptionId = _fixture.Create<string>();
         var config = new StripeConfig
         {
             Url = _fixture.Create<Uri>().ToString(),
             StripeSecret = _fixture.Create<string>()
         };
         _requestClient = new Mock<IRequestClient>();
-        _manageCustomer = new ManageCustomer(config)
+        _manageSubscription = new ManageSubscription(config)
         {
             RequestClient = _requestClient.Object
         };
     }
     
     [Fact]
-    public async Task WhenDoGetSuccessfullyReturnsCustomer_CustomerIsConvertedAndReturned()
+    public async Task WhenDoGetSuccessfullyReturnsSubscription_SubscriptionIsConvertedAndReturned()
     {
         // arrange
-        var original = new Customer
+        var original = new Subscription
         {
             Id = _fixture.Create<string>(),
-            Balance = _fixture.Create<long>(),
-            Currency = _fixture.Create<string>(),
-            Deleted = _fixture.Create<bool>(),
-            Description = _fixture.Create<string>(),
-            Email = _fixture.Create<string>(),
-            Name = _fixture.Create<string>(),
-            Phone = _fixture.Create<string>()
+            Status = _fixture.Create<SubscriptionStatus>().ToString(),
+            CollectionMethod = _fixture.Create<CollectionMethod>().ToString()
         };
         
-        var parameters = new KeyValuePair<string, string>("", _customerId);
+        var parameters = new KeyValuePair<string, string>("", _subscriptionId);
 
         _requestClient
-            .Setup(x => x.DoGet<Customer>("customers", parameters, null))
+            .Setup(x => x.DoGet<Subscription>("subscriptions", parameters, null))
             .ReturnsAsync(original);
         
         // act
-        var result = await _manageCustomer.GetAsync(_customerId);
+        var result = await _manageSubscription.GetAsync(_subscriptionId);
         
         // assert
         Assert.Equal(original.Id, result.ExternalId);
-        Assert.Equal(original.Balance, result.Balance);
-        Assert.Equal(original.Currency, result.Currency);
-        Assert.Equal(original.Deleted, result.Deleted);
-        Assert.Equal(original.Description, result.Description);
-        Assert.Equal(original.Email, result.Email);
-        Assert.Equal(original.Name, result.Name);
-        Assert.Equal(original.Phone, result.Phone);
+        Assert.Equal(original.Status, result.Status.ToString());
+        Assert.Equal(original.CollectionMethod, result.CollectionMethod.ToString());
     }
     
     [Fact]
     public async Task WhenDoGetSuccessfullyReturnsNull_NullIsReturned()
     {
         // arrange
-        var parameters = new KeyValuePair<string, string>("", _customerId);
+        var parameters = new KeyValuePair<string, string>("", _subscriptionId);
 
         _requestClient
-            .Setup(x => x.DoGet<Customer>("customers", parameters, null))
-            .ReturnsAsync((Customer)null);
+            .Setup(x => x.DoGet<Subscription>("subscriptions", parameters, null))
+            .ReturnsAsync((Subscription)null);
         
         // act
-        var result = await _manageCustomer.GetAsync(_customerId);
+        var result = await _manageSubscription.GetAsync(_subscriptionId);
         
         // assert
         Assert.Null(result);
@@ -92,64 +83,54 @@ public class ManageCustomerTests
     public async Task WhenDoGetThrowAnException_ExceptionIsRethrownFromGetAsync()
     {
         // arrange
-        var parameters = new KeyValuePair<string, string>("", _customerId);
+        var parameters = new KeyValuePair<string, string>("", _subscriptionId);
 
         _requestClient
-            .Setup(x => x.DoGet<Customer>("customers", parameters, null))
+            .Setup(x => x.DoGet<Subscription>("subscriptions", parameters, null))
             .Throws<HttpRequestException>();
         
         // act & assert
         await Assert.ThrowsAsync<HttpRequestException>(() =>
-            _manageCustomer.GetAsync(_customerId));
+            _manageSubscription.GetAsync(_subscriptionId));
     }
     
     [Fact]
-    public async Task WhenDoGetSuccessfullyReturnsCustomers_CustomersAreConvertedAndReturned()
+    public async Task WhenDoGetSuccessfullyReturnsSubscriptions_SubscriptionsAreConvertedAndReturned()
     {
         // arrange
-        var original = new List<Customer>
+        var original = new List<Subscription>
         {
             new()
             {
                 Id = _fixture.Create<string>(),
-                Balance = _fixture.Create<long>(),
-                Currency = _fixture.Create<string>(),
-                Deleted = _fixture.Create<bool>(),
-                Description = _fixture.Create<string>(),
-                Email = _fixture.Create<string>(),
-                Name = _fixture.Create<string>(),
-                Phone = _fixture.Create<string>()
+                Status = _fixture.Create<SubscriptionStatus>().ToString(),
+                CollectionMethod = _fixture.Create<CollectionMethod>().ToString()
             }
         };
 
         _requestClient
-            .Setup(x => x.DoGet<List<Customer>>("customers", null, null))
+            .Setup(x => x.DoGet<List<Subscription>>("subscriptions", null, null))
             .ReturnsAsync(original);
         
         // act
-        var result = await _manageCustomer.GetAllAsync();
+        var result = await _manageSubscription.GetAllAsync();
         
         // assert
         Assert.Equal(original[0].Id, result[0].ExternalId);
-        Assert.Equal(original[0].Balance, result[0].Balance);
-        Assert.Equal(original[0].Currency, result[0].Currency);
-        Assert.Equal(original[0].Deleted, result[0].Deleted);
-        Assert.Equal(original[0].Description, result[0].Description);
-        Assert.Equal(original[0].Email, result[0].Email);
-        Assert.Equal(original[0].Name, result[0].Name);
-        Assert.Equal(original[0].Phone, result[0].Phone);
+        Assert.Equal(original[0].Status, result[0].Status.ToString());
+        Assert.Equal(original[0].CollectionMethod, result[0].CollectionMethod.ToString());
     }
     
     [Fact]
-    public async Task WhenDoGetSuccessfullyReturnsNullForManyCustomers_NullIsReturned()
+    public async Task WhenDoGetSuccessfullyReturnsNullForManySubscriptions_NullIsReturned()
     {
         // arrange
         _requestClient
-            .Setup(x => x.DoGet<List<Customer>>("customers", null, null))
-            .ReturnsAsync((List<Customer>)null);
+            .Setup(x => x.DoGet<List<Subscription>>("subscriptions", null, null))
+            .ReturnsAsync((List<Subscription>)null);
         
         // act
-        var result = await _manageCustomer.GetAsync(_customerId);
+        var result = await _manageSubscription.GetAsync(_subscriptionId);
         
         // assert
         Assert.Null(result);
@@ -160,93 +141,52 @@ public class ManageCustomerTests
     {
         // arrange
         _requestClient
-            .Setup(x => x.DoGet<List<Customer>>("customers", null, null))
+            .Setup(x => x.DoGet<List<Subscription>>("subscriptions", null, null))
             .Throws<HttpRequestException>();
         
         // act & assert
         await Assert.ThrowsAsync<HttpRequestException>(() =>
-            _manageCustomer.GetAllAsync());
+            _manageSubscription.GetAllAsync());
     }
     
     [Fact]
-    public async Task WhenDoPostSuccessfullyCreatesCustomer_CustomerIsConvertedAndReturned()
+    public async Task WhenDoPostSuccessfullyCreatesSubscription_SubscriptionIsConvertedAndReturned()
     {
         // arrange
-        var original = new Customer
+        var original = new Subscription
         {
             Id = _fixture.Create<string>(),
-            Balance = _fixture.Create<long>(),
-            Currency = _fixture.Create<string>(),
-            Deleted = _fixture.Create<bool>(),
-            Description = _fixture.Create<string>(),
-            Email = _fixture.Create<string>(),
-            Name = _fixture.Create<string>(),
-            Phone = _fixture.Create<string>()
+            Status = _fixture.Create<SubscriptionStatus>().ToString(),
+            CollectionMethod = _fixture.Create<CollectionMethod>().ToString()
         };
         
-        var expected = CustomerConverter.Convert(original);
+        var expected = SubscriptionConverter.Convert(original);
         
         _requestClient
-            .Setup(x => x.DoPost<Customer>("customers", It.IsAny<string>(), null))
+            .Setup(x => x.DoPost<Subscription>("subscriptions", It.IsAny<string>(), null))
             .ReturnsAsync(original);
         
         // act
-        var result = await _manageCustomer.CreateOrUpdateCustomerAsync(expected);
+        var result = await _manageSubscription.CreateOrUpdateAsync(expected);
         
         // assert
         Assert.Equal(original.Id, result.ExternalId);
-        Assert.Equal(original.Balance, result.Balance);
-        Assert.Equal(original.Currency, result.Currency);
-        Assert.Equal(original.Deleted, result.Deleted);
-        Assert.Equal(original.Description, result.Description);
-        Assert.Equal(original.Email, result.Email);
-        Assert.Equal(original.Name, result.Name);
-        Assert.Equal(original.Phone, result.Phone);
+        Assert.Equal(original.Status, result.Status.ToString());
+        Assert.Equal(original.CollectionMethod, result.CollectionMethod.ToString());
     }
     
     [Fact]
     public async Task WhenDoPostThrowAnException_ExceptionIsRethrown()
     {
         // arrange
-        var customer = _fixture.Create<CustomerDTO>();
+        var subscription = _fixture.Create<SubscriptionDTO>();
         
         _requestClient
-            .Setup(x => x.DoPost<Customer>("customers", It.IsAny<string>(), null))
+            .Setup(x => x.DoPost<Subscription>("subscriptions", It.IsAny<string>(), null))
             .Throws<HttpRequestException>();
         
         // act & assert
         await Assert.ThrowsAsync<HttpRequestException>(() =>
-            _manageCustomer.CreateOrUpdateCustomerAsync(customer));
-    }
-    
-    [Fact]
-    public async Task WhenDoDeleteSuccessfullyReturnsDeletes_TrueIsReturned()
-    {
-        // arrange
-        var parameters = new KeyValuePair<string, string>("", _customerId);
-
-        _requestClient
-            .Setup(x => x.DoDelete<List<Customer>>("customers", parameters, null));
-        
-        // act
-        var result = await _manageCustomer.DeleteCustomerAsync(_customerId);
-        
-        // assert
-        Assert.True(result);
-    }
-    
-    [Fact]
-    public async Task WhenDoDeleteThrowAnException_ExceptionIsRethrown()
-    {
-        var parameters = new KeyValuePair<string, string>("", _customerId);
-
-        // arrange
-        _requestClient
-            .Setup(x => x.DoDelete<CustomerDeletedDTO>("customers", parameters, null))
-            .Throws<HttpRequestException>();
-        
-        // act & assert
-        await Assert.ThrowsAsync<HttpRequestException>(() =>
-            _manageCustomer.DeleteCustomerAsync(_customerId));
+            _manageSubscription.CreateOrUpdateAsync(subscription));
     }
 }

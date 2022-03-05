@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using RestSharp;
 using Stripe;
 using StripeExample.Demo.Services.Clients;
@@ -11,29 +13,32 @@ namespace StripeExample.Demo.Services.Services
 {   
     public class ManageSubscription : IManageSubscription
     {
-        private readonly IRequestClient _requestClient;
+        public IRequestClient RequestClient;
 
         public ManageSubscription(StripeConfig config)
         {
             var client = new RestClient(config.Url);
-            _requestClient = new RequestClient(client, config.StripeSecret);
+            RequestClient = new RequestClient(client, config.StripeSecret);
         }
 
         public async Task<SubscriptionDTO> GetAsync(string subscriptionId)
         {
             var parameters = new KeyValuePair<string, string>("", subscriptionId);
-            var response = await _requestClient.DoGet<Subscription>("subscriptions", parameters);
+            var response = await RequestClient.DoGet<Subscription>("subscriptions", parameters);
             return SubscriptionConverter.Convert(response);
         }
 
-        public async Task<List<SubscriptionDTO>> GetAllAsync(string customerId)
+        public async Task<List<SubscriptionDTO>> GetAllAsync()
         {
-            throw new System.NotImplementedException();
+            var response = await RequestClient.DoGet<List<Subscription>>("subscriptions");
+            return response.Select(SubscriptionConverter.Convert).ToList();
         }
 
         public async Task<SubscriptionDTO> CreateOrUpdateAsync(SubscriptionDTO subscription)
         {
-            throw new System.NotImplementedException();
+            var body = JsonConvert.SerializeObject(SubscriptionConverter.Convert(subscription));
+            var response = await RequestClient.DoPost<Subscription>("subscriptions", body);
+            return SubscriptionConverter.Convert(response);
         }
     }
 }
